@@ -1,0 +1,10 @@
+type Query {
+    Recepies(ingredients: [String], first: Int, offset: Int): [Recepie]
+}
+
+
+type Recepie {
+    instruction: [String]
+    ingredients: [String]
+    name: String
+}
