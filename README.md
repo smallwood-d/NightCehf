@@ -20,6 +20,7 @@ $ ./loader.exe
 ```
 Help and usage `node index.js -h`  
  - `-s \ --server` run the server  
+ - `-m \ --mock` run mock server  
 
 ### Supported APIs
  - **/about** small info message/
