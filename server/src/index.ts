@@ -82,24 +82,24 @@ async function server() {
      *     description: Return all recepies that contain at least one ingredient
      *                  from the ingredients list.
      *     parameters:
-     *       - in: body
+     *       - in: query
      *         name: ingredients
      *         description: List of ingredients to search for.
      *         schema:
-     *           type: array
-     *           items:
-     *             type: string
-     *           example: ["oil", "egg"]
+     *           type: string
+     *           example: oil, egg
      *         required: true
      *       - in: query
      *         name: offset
      *         schema:
      *           type: integer
+     *           example: 3
      *         description: The number of items to skip before starting to collect the result set
      *       - in: query
      *         name: limit
      *         schema:
      *           type: integer
+     *           example: 5
      *         description: The numbers of items to return
      *     responses:
      *       200:
@@ -108,8 +108,11 @@ async function server() {
     app.get('/getRecepies', async (req: Request, res: Response) => {
         try {
             console.log(req.body);
-            logger.debug(`serching for recepies with [${req.body.ingredients}]`);
-            const results = await db.getRecepie(req.body.ingredients, +req.query.limit, +req.query.offset);
+            logger.debug(`serching for recepies with [${req.query.ingredients}]`);
+            const ingredients: string[] = 
+            (req.query.ingredients as string).split(',').map(i => i.trim());
+
+            const results = await db.getRecepie(ingredients, +req.query.limit, +req.query.offset);
             res.send(results);
         } catch (e) {
             logger.error(e);

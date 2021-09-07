@@ -26,3 +26,4 @@ Help and usage `node index.js -h`
  - **/databases** return all the avaible databases
  - **/collections** return all the collecotions of the database 
  - **/getRecepies** return all the recipies match by the ingredients.
+ - **/api-docs** Swagger page.
