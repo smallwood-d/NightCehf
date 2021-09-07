@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc --extendedDiagnostics --pretty && copyfiles -u 2 src/graphql/schema.graphql dist/src/graphql",
     "start": "node dist/src/index.js -s",
+    "mock": "node dist/src/index.js -m",
     "dev": "tsc-watch --project . --outDir ./dist --onSuccess \"npm run start\"",
     "clean": "del-cli -f dist",
     "prepublishOnly": "npm run build",
