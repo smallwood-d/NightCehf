@@ -49,15 +49,58 @@ const logger = Rogger.getRogger(__filename);
      * @param {number} first - maximum number of entites returns.
      * @param {number} offset - skip number of entities.
      */
-    public getRecepie(ingredients: string[], first?: number, offset?: number): Promise<Record<string, unknown>[]> {
-        const reg_ingredients = ingredients.map(e => new RegExp(e, "i"));
+    public getRecepie(reg_ingredients: string[], first?: number, offset?: number): Promise<Record<string, unknown>[]> {
+        console.log(reg_ingredients);
+        let aggregateQuery: object[] = 
+        [ 
+            {
+                "$project": {
+                    "name": 1,
+                    "ingredients": 1,
+                    "instructions": 1,
+                    "isAllTrue": { 
+                    "$allElementsTrue": {
+                        $map: {
+                                input: reg_ingredients, as: "ingredient",in: {
+                                    $reduce: {
+                                        input: "$ingredients",
+                                        initialValue: 0,
+                                        in: {
+                                            $cond: [{ $regexMatch: { input: "$$this.name", regex: "$$ingredient" } },
+                                                {$add: ["$$value",1]}, "$$value"] }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            { $match : { isAllTrue : true } },
+            {   "$project": {
+                    "name": 1,
+                    "ingredients": 1,
+                    "instructions": 1
+                }
+            }
+        ];
+        // let aggregateQuery: object[] = [ 
+        //     { $match: {$expr: {$gte: [{$reduce: 
+        //         {input: "$ingredients", initialValue: 0, 
+        //             in: {$cond: [{ $regexMatch: { input: "$$this.name", regex: reg_ingredients } },
+        //              {$add: ["$$value",1]}, "$$value"]}}}
+        //             ,4]}}},
+        // ];
+            
+        offset && aggregateQuery.push({ $skip: offset });
+        first && aggregateQuery.push({ $limit: first });
+
         const result = this.client.db(this.db)
             .collection('recepies')
-            .find({ingredients: {$elemMatch: { name: { $in: reg_ingredients }}}});
-        offset && result.skip(offset);
-        first && result.limit(first);
+            .aggregate(aggregateQuery);
         return result.toArray();
     }
+
+    
 
     /**
      * list all databases avaible on the remote DB.

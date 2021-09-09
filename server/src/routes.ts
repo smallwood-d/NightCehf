@@ -75,7 +75,6 @@ export function ncRouterInit(db : DB) {
      */
     ncRouter.get('/getRecepies', async (req: Request, res: Response) => {
         try {
-            console.log(req.body);
             logger.debug(`serching for recepies with [${req.query.ingredients}]`);
             const ingredients: string[] = 
             (req.query.ingredients as string).split(',').map(i => i.trim());
