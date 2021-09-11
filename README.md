@@ -28,3 +28,4 @@ Help and usage `node index.js -h`
  - **/collections** return all the collecotions of the database 
  - **/getRecepies** return all the recipies match by the ingredients.
  - **/api-docs** Swagger page.
+ - **/ncgql** Graphql studio.

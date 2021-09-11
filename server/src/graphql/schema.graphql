@@ -1,10 +1,14 @@
 type Query {
-    Recepies(ingredients: [String], first: Int, offset: Int): [Recepie]
+    Recepies(ingredients: [String], limit: Int, offset: Int): [Recepie]
 }
-
 
 type Recepie {
     instruction: [String]
-    ingredients: [String]
+    ingredients: [Ingredients]
     name: String
+}
+
+type Ingredients {
+  name: String,
+  quantity: Float
 }

@@ -45,10 +45,10 @@ const logger = Rogger.getRogger(__filename);
     /**
      * get a all the recepies of with at least one ingredient from the list.
      * @param {string[]} ingredients - ingredients list.
-     * @param {number} first - maximum number of entites returns.
+     * @param {number} limit - maximum number of entites returns.
      * @param {number} offset - skip number of entities.
      */
-    public getRecepie(reg_ingredients: string[], first?: number, offset?: number): Promise<Record<string, unknown>[]> {
+    public getRecepie(reg_ingredients: string[], limit?: number, offset?: number): Promise<Record<string, unknown>[]> {
         const aggregateQuery: Record<string, unknown>[] = 
         [ 
             {
@@ -83,7 +83,7 @@ const logger = Rogger.getRogger(__filename);
         ];
             
         offset && aggregateQuery.push({ $skip: offset });
-        first && aggregateQuery.push({ $limit: first });
+        limit && aggregateQuery.push({ $limit: limit });
 
         const result = this.client.db(this.db)
             .collection('recepies')

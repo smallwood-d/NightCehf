@@ -14,8 +14,8 @@ const typeDefs = gql(fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'ut
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    async Recepies(parent: any, {ingredients, first, offset}: any, {db}: BaseContext) {
-      return await db.getRecepie(ingredients, first, offset);
+    async Recepies(parent: any, {ingredients, limit, offset}: any, {db}: BaseContext) {
+      return await db.getRecepie(ingredients, limit, offset);
     }
   }
 };
@@ -26,7 +26,7 @@ export async function addGraphql (app: Application) {
   await server.start();
   server.applyMiddleware({
     app, 
-    //path: '/notitlie'
+    path: '/ncgql'
   });
   db.setDB("recepies");
   await db.connect();
