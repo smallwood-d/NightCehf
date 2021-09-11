@@ -18,14 +18,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/SmallWood-D/WeVote.git"
+    "url": "https://github.com/smallwood-d/NightChef.git"
   },
   "author": "---",
   "license": "SEE LICENSE IN license.md",
   "bugs": {
-    "url": "https://github.com/SmallWood-D/WeVote/issues"
+    "url": "https://github.com/smallwood-d/NightChef/issues"
   },
-  "homepage": "https://github.com/SmallWood-D/WeVote#readme",
+  "homepage": "https://github.com/smallwood-d/NightChef#readme",
   "dependencies": {
     "apollo-server-express": "^2.17.0",
     "argparse": "^2.0.0",
