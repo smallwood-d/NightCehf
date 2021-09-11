@@ -32,7 +32,6 @@ const logger = Rogger.getRogger(__filename);
                 logger.warn("fail to connect to mongo retry.");
             }
         }
-
     }
 
     /**
@@ -50,8 +49,7 @@ const logger = Rogger.getRogger(__filename);
      * @param {number} offset - skip number of entities.
      */
     public getRecepie(reg_ingredients: string[], first?: number, offset?: number): Promise<Record<string, unknown>[]> {
-        console.log(reg_ingredients);
-        let aggregateQuery: object[] = 
+        const aggregateQuery: Record<string, unknown>[] = 
         [ 
             {
                 "$project": {
@@ -83,13 +81,6 @@ const logger = Rogger.getRogger(__filename);
                 }
             }
         ];
-        // let aggregateQuery: object[] = [ 
-        //     { $match: {$expr: {$gte: [{$reduce: 
-        //         {input: "$ingredients", initialValue: 0, 
-        //             in: {$cond: [{ $regexMatch: { input: "$$this.name", regex: reg_ingredients } },
-        //              {$add: ["$$value",1]}, "$$value"]}}}
-        //             ,4]}}},
-        // ];
             
         offset && aggregateQuery.push({ $skip: offset });
         first && aggregateQuery.push({ $limit: first });

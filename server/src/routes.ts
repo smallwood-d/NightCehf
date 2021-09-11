@@ -8,7 +8,7 @@ import { DB } from "./api/db";
 const logger = Rogger.getRogger(__filename);
 
 
-export function ncRouterInit(db : DB) {
+export function ncRouterInit(db : DB): Router {
     const ncRouter: Router = Router();
 
     /**
@@ -22,7 +22,7 @@ export function ncRouterInit(db : DB) {
      */
     ncRouter.get('/databases', async (req: Request, res: Response) => {
         let collections: any = await db.listDatabases();
-        collections = collections.databases.map((e: any) => e.name);
+        collections = collections.databases.map((e: Record<string, unknown>) => e.name);
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(collections));
     });

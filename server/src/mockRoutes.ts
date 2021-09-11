@@ -3,12 +3,7 @@ import path from 'path';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
-import { Rogger }  from './utils/logger';
-import { DB } from "./api/db";
-const logger = Rogger.getRogger(__filename);
-
-
-export function ncMockRouterInit() {
+export function ncMockRouterInit(): Router {
     const ncMockRouter: Router = Router();
 
     /**
