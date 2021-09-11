@@ -15,3 +15,8 @@ ncargs.add_argument('-s', '--server',
     action: 'store_true',
     help: 'run NightChef server'
 });
+ncargs.add_argument('-m', '--mock',
+{
+    action: 'store_true',
+    help: 'run NightChef mock server'
+});
