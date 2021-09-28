@@ -20,3 +20,9 @@ ncargs.add_argument('-m', '--mock',
     action: 'store_true',
     help: 'run NightChef mock server'
 });
+
+ncargs.add_argument('--auth',
+{
+    action: 'store_true',
+    help: 'run NightChef with authentication'
+});

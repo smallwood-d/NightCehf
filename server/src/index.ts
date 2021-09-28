@@ -4,10 +4,12 @@ import path from 'path';
 import fs from 'fs';
 
 import { DB }  from './api/db';
+import { setAuth }  from './utils/auth';
 import { Rogger }  from './utils/logger';
 import { addGraphql }  from './graphql/resolver';
 import { ncargs }  from './api/CLI';
 import {ncRouterInit} from './routes/routes';
+import { authenticate }  from './routes/AuthMid';
 import {ncMockRouterInit} from './routes/mockRoutes';
 import cfg from "../resources/cfg.json";
 
@@ -22,6 +24,7 @@ const MOCK_PORT = 7812;
 
 const args = ncargs.parse_args();
 
+setAuth(args.auth);
 app.use(cors());
 app.use(express.json());
 
@@ -32,7 +35,7 @@ async function server() {
 
     addGraphql(app);
     const db = new DB();
-    db.setDB("recepies");
+    db.setDB("NightChef");
     await db.connect();
 
     /**
@@ -48,7 +51,7 @@ async function server() {
         res.send("NightChef");
     });
 
-    app.use(ncRouterInit(db));
+    app.use(authenticate, ncRouterInit(db));
 
     app.listen(PORT, () => {
         logger.info(`Deploy server at http://localhost:${PORT}`);

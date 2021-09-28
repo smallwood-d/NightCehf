@@ -1,4 +1,4 @@
-import {Router, Request, Response } from "express";
+import {Router, Request, Response, RequestHandler  } from "express";
 import path from 'path';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
@@ -74,6 +74,7 @@ export function ncRouterInit(db : DB): Router {
      *         description: Returns JSON with all the match recepies.
      */
     ncRouter.get('/getRecepies', async (req: Request, res: Response) => {
+        console.log(" done authenticate");
         try {
             logger.debug(`serching for recepies with [${req.query.ingredients}]`);
             const ingredients: string[] = 
