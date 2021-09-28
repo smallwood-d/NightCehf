@@ -7,8 +7,8 @@ import { DB }  from './api/db';
 import { Rogger }  from './utils/logger';
 import { addGraphql }  from './graphql/resolver';
 import { ncargs }  from './api/CLI';
-import {ncRouterInit} from './routes';
-import {ncMockRouterInit} from './mockRoutes';
+import {ncRouterInit} from './routes/routes';
+import {ncMockRouterInit} from './routes/mockRoutes';
 import cfg from "../resources/cfg.json";
 
 const info = JSON.parse(fs.readFileSync(path.join(__dirname, '..',  '..', 'package.json'), 'utf8'));
