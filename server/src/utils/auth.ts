@@ -14,6 +14,10 @@ export function verifyJWT(encJWT: string): boolean {
     return true;
 }
 
+export function genrateJWT() {
+
+}
+
 export function setAuth(value: boolean): void {
     auth = value;
 }
