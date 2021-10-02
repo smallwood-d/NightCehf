@@ -1,4 +1,6 @@
 import express from "express";
+import cookieParser from 'cookie-parser';
+
 import cors from "cors";
 import path from 'path';
 import fs from 'fs';
@@ -26,12 +28,11 @@ const args = ncargs.parse_args();
 setAuth(args.auth);
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 mockApp.use(cors());
 
 async function server() {
-    console.log(cfg.LOGO);
-
     addGraphql(app);
     const db = new DB();
     db.setDB("NightChef");
@@ -40,6 +41,7 @@ async function server() {
     app.use(RouterInit(db));
     app.use(sysRouter);
 
+    console.log(cfg.LOGO);
     app.listen(PORT, () => {
         logger.info(`Deploy server at http://localhost:${PORT}`);
     });

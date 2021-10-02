@@ -1,5 +1,6 @@
 import {Router, Request, Response, RequestHandler  } from "express";
 
+import {authenticate} from './auth';
 import { Rogger }  from '../utils/logger';
 import { DB } from "../api/db";
 const logger = Rogger.getRogger(__filename);
@@ -17,7 +18,7 @@ export function RouterInit(db : DB): Router {
      *       200:
      *         description: Array of strings
      */
-    recipesRouter.get('/databases', async (req: Request, res: Response) => {
+    recipesRouter.get('/databases', authenticate, async (req: Request, res: Response) => {
         let collections: any = await db.listDatabases();
         collections = collections.databases.map((e: Record<string, unknown>) => e.name);
         res.setHeader('Content-Type', 'application/json');
@@ -33,7 +34,7 @@ export function RouterInit(db : DB): Router {
      *       200:
      *         description: Array of strings
      */
-    recipesRouter.get('/collections', async (req: Request, res: Response) => {
+    recipesRouter.get('/collections', authenticate, async (req: Request, res: Response) => {
         let collections = await db.listCollections();
         collections = collections.map((col: Record<string, unknown>) => col.name);
         res.setHeader('Content-Type', 'application/json');
@@ -70,7 +71,7 @@ export function RouterInit(db : DB): Router {
      *       200:
      *         description: Returns JSON with all the match recepies.
      */
-    recipesRouter.get('/getRecepies', async (req: Request, res: Response) => {
+    recipesRouter.get('/getRecepies', authenticate, async (req: Request, res: Response) => {
         try {
             logger.debug(`serching for recepies with [${req.query.ingredients}]`);
             const ingredients: string[] = 

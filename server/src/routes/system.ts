@@ -2,6 +2,7 @@ import {Router, Request, Response } from "express";
 import path from 'path';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import {sgininUser, verifyUser, genrateJWT} from '../utils/auth';
 
 import { Rogger }  from '../utils/logger';
 const logger = Rogger.getRogger(__filename);
@@ -23,7 +24,7 @@ export const sysRouter: Router = Router();
 
 /**
  * @openapi
- * /login:
+ * /system/login:
  *   post:
  *     description: login to NightChef.
  *     parameters:
@@ -46,25 +47,35 @@ export const sysRouter: Router = Router();
  *       403: 
  *         bad user creadentilas
  */
-sysRouter.post('/login', async (req: Request, res: Response) => {
-console.log(req.body)
+sysRouter.post('/system/login', (req: Request, res: Response) => {
+    const user = req.body.user;
+    const key = req.body.key;
+    if (verifyUser(user, key)) {
+        const token = genrateJWT({"user": user});
+        res.cookie('session_id', token, { maxAge: 900000, httpOnly: true });
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(403);
+    }
+});
+
+sysRouter.post('/system/signin', (req: Request, res: Response) => {
+    sgininUser(req.body.user, req.body.key);
+    res.sendStatus(200);
 });
 
 /**
  * @openapi
- * /about:
+ * /system/about:
  *   get:
  *     description: Return information about the server.
  *     responses:
  *       200:
  *         description: Returns String with the server name.
  */
-sysRouter.get('/about', (req: Request, res: Response) => {
+sysRouter.get('/system/about', (req: Request, res: Response) => {
 res.send("NightChef");
 });
 
 sysRouter.use('/api-docs', swaggerUi.serve);
 sysRouter.get('/api-docs', swaggerUi.setup(openapiSpecification));
-
-
-export const foo = 6;
