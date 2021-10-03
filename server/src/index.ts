@@ -17,6 +17,16 @@ import { exit } from "process";
 const info = JSON.parse(fs.readFileSync(path.join(__dirname, '..',  '..', 'package.json'), 'utf8'));
 const logger = Rogger.getRogger(__filename);
 
+process
+  .on('unhandledRejection', (reason, p) => {
+    console.error(reason, 'Unhandled Rejection at Promise', p);
+  })
+  .on('uncaughtException', err => {
+    console.error(err, 'Uncaught Exception thrown');
+    process.exit(1);
+  });
+
+
 const app = express();
 const mockApp = express();
 const PORT = 7811;

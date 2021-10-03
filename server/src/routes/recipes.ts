@@ -8,17 +8,19 @@ const logger = Rogger.getRogger(__filename);
 
 export function RouterInit(db : DB): Router {
     const recipesRouter: Router = Router();
+    
+    recipesRouter.use('/chef', authenticate);
 
     /**
      * @openapi
-     * /databases:
+     * /chef/databases:
      *   get:
      *     description: Return the databases list.
      *     responses:
      *       200:
      *         description: Array of strings
      */
-    recipesRouter.get('/databases', authenticate, async (req: Request, res: Response) => {
+    recipesRouter.get('/chef/databases', async (req: Request, res: Response) => {
         let collections: any = await db.listDatabases();
         collections = collections.databases.map((e: Record<string, unknown>) => e.name);
         res.setHeader('Content-Type', 'application/json');
@@ -27,14 +29,14 @@ export function RouterInit(db : DB): Router {
 
     /**
      * @openapi
-     * /collections:
+     * /chef/collections:
      *   get:
      *     description: Return the recepies DB collections list.
      *     responses:
      *       200:
      *         description: Array of strings
      */
-    recipesRouter.get('/collections', authenticate, async (req: Request, res: Response) => {
+    recipesRouter.get('/chef/collections', async (req: Request, res: Response) => {
         let collections = await db.listCollections();
         collections = collections.map((col: Record<string, unknown>) => col.name);
         res.setHeader('Content-Type', 'application/json');
@@ -43,7 +45,7 @@ export function RouterInit(db : DB): Router {
 
     /**
      * @openapi
-     * /getRecepies:
+     * /chef/getRecepies:
      *   get:
      *     description: Return all recepies that contain at least one ingredient
      *                  from the ingredients list.
@@ -71,7 +73,7 @@ export function RouterInit(db : DB): Router {
      *       200:
      *         description: Returns JSON with all the match recepies.
      */
-    recipesRouter.get('/getRecepies', authenticate, async (req: Request, res: Response) => {
+    recipesRouter.get('/chef/recepies', async (req: Request, res: Response) => {
         try {
             logger.debug(`serching for recepies with [${req.query.ingredients}]`);
             const ingredients: string[] = 

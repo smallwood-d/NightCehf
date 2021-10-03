@@ -52,5 +52,5 @@ export function setAuth(value: boolean): void {
 }
 
 export function isAuth(): boolean {
-    return auth ?? !!cfg.AUTH ;
+    return auth;
 }
