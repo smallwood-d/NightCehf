@@ -4,3 +4,32 @@
 .example-spacer {
   flex: 1 1 auto;
 }
+
+.example-chip-list {
+  width: 100%;
+}
+
+.search {
+  width: 50%;
+}
+.logo-wrapper{
+  display:flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+  height: 60%;
+}
+
+/* 1st solution - causes weird thing at the left side of input */
+::ng-deep .mat-form-field.mat-form-field-appearance-fill  .mat-form-field-flex {
+  align-items: center;
+  background-color: #fff;
+  border-radius: 40px;
+  box-shadow: 0 0 10px 5px hsl(0deg 0% 83% / 50%);
+}
+
+::ng-deep .mat-form-field {
+  .mat-form-field-underline {
+    width: 0;
+  }
+}

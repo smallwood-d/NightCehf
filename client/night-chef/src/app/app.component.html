@@ -7,3 +7,29 @@
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<div class="logo-wrapper">
+  <img src="../assets/Capture3.JPG" height="368" width="404" class="logo"/>
+  <div class="search">
+    <mat-form-field class="example-chip-list" appearance="fill">
+      <mat-label>Ingredients</mat-label>
+      <mat-chip-list #chipList aria-label="Ingredients selection">
+        <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
+                  [removable]="removable" (removed)="remove(fruit)">
+          {{fruit.name}}
+          <button matChipRemove *ngIf="removable">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input placeholder="New Ingredient..."
+               [matChipInputFor]="chipList"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               [matChipInputAddOnBlur]="addOnBlur"
+               (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+
+</div>
+
+
